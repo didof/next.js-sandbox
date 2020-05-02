@@ -1,5 +1,0 @@
-{
-    "watch": ["server"],
-    "exec": "cross-env NODE_ENV=development babel-node server/index.js",
-    "ext": "js"
-}

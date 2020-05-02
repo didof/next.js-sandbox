@@ -15,7 +15,6 @@ class MyDocument extends Document {
 						content='Author: Francesco Di Donato,
 						length: 5 pages'
 					/>
-
 					<meta charSet='utf-8' />
 					<meta
 						name='viewport'

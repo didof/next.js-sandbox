@@ -1,5 +1,17 @@
+require('dotenv').config()
+
+//* core
 import express from 'express'
 import next from 'next'
+
+//* parsing
+import cookieParser from 'cookie-parser'
+import routes from './router'
+
+import passport from 'passport'
+import { initializeAuthentication } from './auth'
+
+import { connectToDatabase } from './database/connection'
 
 const dev = process.env.NODE_ENV !== 'production'
 const nextApp = next({ dev })
@@ -7,19 +19,27 @@ const handle = nextApp.getRequestHandler()
 
 const port = process.env.PORT || 3000
 
-nextApp.prepare().then(() => {
+nextApp.prepare().then(async () => {
 	const app = express()
 
-	app.get('/json', (req, res) => {
-		return res.status(200).json({ msg: 'Useless json with status of 200 OK' })
-	})
+	app.use(express.urlencoded({ extended: false }))
+	app.use(express.json())
+	app.use(cookieParser())
+
+	app.use(passport.initialize())
+
+	routes(app)
+	// initializeAuthentication(app)
 
 	app.get('*', (req, res) => {
 		return handle(req, res)
 	})
 
+	await connectToDatabase()
+
 	app.listen(port, (err) => {
 		if (err) throw err
-		console.log(`> Ready on http://localhost:${port}`)
+		console.log(`> Ready on http://localhost:${process.env.SERVER_URL}`)
+		console.log(`> Modality: ${process.env.NODE_ENV}`)
 	})
 })
