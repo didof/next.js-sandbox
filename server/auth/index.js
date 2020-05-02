@@ -7,7 +7,7 @@ const pipe = (...functions) => (args) =>
 const initialiseAuthentication = (app) => {
     utils.setup()
 
-    pipe(strategies.JWTStrategy)(app)
+    pipe(strategies.GoogleStrategy, strategies.JWTStrategy)(app)
 }
 
 export { utils, initialiseAuthentication, strategies }

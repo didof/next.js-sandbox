@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser'
 import routes from './router'
 
 import passport from 'passport'
-import { initializeAuthentication } from './auth'
+import { initialiseAuthentication } from './auth'
 
 import { connectToDatabase } from './database/connection'
 
@@ -29,7 +29,7 @@ nextApp.prepare().then(async () => {
 	app.use(passport.initialize())
 
 	routes(app)
-	// initializeAuthentication(app)
+	initialiseAuthentication(app)
 
 	app.get('*', (req, res) => {
 		return handle(req, res)

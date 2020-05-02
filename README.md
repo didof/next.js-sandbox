@@ -1,5 +1,9 @@
 # Authentication System
 
+Questo progetto è costruito seguendo il tutorial di [Developer Handbook](https://developerhandbook.com/passport.js/node-express-passport-authentication-mini-series/)
+
+---
+
 > **Terminal** npm i -D @babel/node @babel/preset-env
 
 Babel analizza la struttura del codice JS (come un [Abstract Syntax Tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree)) alla ricerca di specifici construtti e applica una trasformazione a questi in modo da ottenere una sintassi eseguibile da runtime environment più datati. In Babel ogni trasformazione AST è impacchettata sotto forma di un _plugin_; un _preset_ consiste in una combinazione di plugins necessari a supportare un particolare environment. Ad esempio il _preset-es2015_ compila ES6(es2015) a ES5; _preset-es2016_ compila ES7(es2016) a ES6(es2015).
@@ -17,6 +21,8 @@ Quindi procedo alla configurazione di Babel creando a livello root il file `.bab
 	"presets": ["next/babel", "@babel/preset-env"]
 }
 ```
+
+In alternativa è possibile configurare Babel nel file `package.json` inserendo una nuova proprietà `"babel": { ... }`.
 
 Grazie a questa operazione sarà supportata la forma `import [] from []` (in alternativa a `const [] = require([])`).
 
@@ -79,3 +85,7 @@ E modifico in `package.json` lo script `"dev": "next dev"` a `"dev": "nodemon"`.
 ```
 
 Quindi quando chiamo lo script `npm run dev` viene attivato _nodemon_ che esegue _babel/node_ (quindi node, ma con i presets e plugins di Babel) sul file specificato `server/index.js`. Inoltre viene impostat la variabile environment su `development`. Sarebbe bastato `set NODE_ENV=development` ma utilizzando `cross-env ...` (`npm i cross-env`) si ha la certezza che il comando sia riconosciuto su tutte le piattaforme. Quindi _nodemon_ riavvierà in automatico il server ogni volta che verrà salvata una modifica in un qualsiasi file con estenzione `js` contenuto all'interno della folder `server`.
+
+In alternativa è possibile configurare nodemon direttamente in `package.json` passando una proprietà `"nodemonConfig": { ... }`.
+
+---
