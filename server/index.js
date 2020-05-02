@@ -8,9 +8,12 @@ import next from 'next'
 import cookieParser from 'cookie-parser'
 import routes from './router'
 
+//* auth
 import passport from 'passport'
-import { initialiseAuthentication } from './auth'
+import { utils, initialiseAuthentication } from './auth'
+import { ROLES } from '../utils'
 
+//* db
 import { connectToDatabase } from './database/connection'
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -30,6 +33,33 @@ nextApp.prepare().then(async () => {
 
 	routes(app)
 	initialiseAuthentication(app)
+
+	app.get(
+		'/admin-dashboard',
+		passport.authenticate('jwt', { failureRedirect: '/login' }),
+		utils.checkIsInRole(ROLES.Admin),
+		(req, res) => {
+			return handle(req, res)
+		}
+	)
+
+	app.get(
+		'/customer-dashboard',
+		passport.authenticate('jwt', { failureRedirect: '/login' }),
+		utils.checkIsInRole(ROLES.Customer),
+		(req, res) => {
+			return handle(req, res)
+		}
+	)
+
+	app.get(
+		'/both-dashboard',
+		passport.authenticate('jwt', { failureRedirect: '/login' }),
+		utils.checkIsInRole(ROLES.Admin, ROLES.Customer),
+		(req, res) => {
+			return handle(req, res)
+		}
+	)
 
 	app.get('*', (req, res) => {
 		return handle(req, res)

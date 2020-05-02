@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "nodemon",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "db": "./node_modules/.bin/babel-node db.js"
   },
   "dependencies": {
     "@material-ui/core": "^4.9.12",

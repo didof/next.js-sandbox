@@ -4,6 +4,10 @@ import { verifyPassword, hashPassword } from '../auth/utils'
 import { login } from '../auth/strategies/jwt'
 import { createUser, getUserByEmail } from '../database/user'
 
+import { ROLES } from '../../utils'
+
+import { getRedirectUrl } from '../auth/utils'
+
 const router = express.Router()
 
 router.post('/login', async (req, res) => {
@@ -69,10 +73,10 @@ router.post('/register', async (req, res) => {
 		return res.status(500).json({ success: false, data: 'Authentication error' })
 	}
 
-	return res.status(200).cookie('jwt', token, { httpOnly: true }).json({
-		success: true,
-		data: '/',
-	})
+	return res
+		.status(200)
+		.cookie('jwt', token, { httpOnly: true })
+		.redirect(getRedirectUrl(req.user.role))
 })
 
 export default router

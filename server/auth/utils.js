@@ -4,6 +4,8 @@ import bcrypt from 'bcrypt'
 
 import { UserModel } from '../database/schema'
 
+import { ROLES } from '../../utils'
+
 const setup = () => {
 	passport.serializeUser((user, done) => done(null, user._id))
 
@@ -21,7 +23,7 @@ const signToken = (user) => {
 	return jwt.sign({ data: user }, process.env.JWT_SECRET, { expiresIn: 604800 })
 }
 
-const hashPassword = async password => {
+const hashPassword = async (password) => {
 	if (!password) {
 		throw new Error('Password was not provided')
 	}
@@ -34,4 +36,28 @@ const verifyPassword = async (candidate, actual) => {
 	return await bcrypt.compare(candidate, actual)
 }
 
-export { setup, signToken, hashPassword, verifyPassword }
+const checkIsInRole = (...roles) => (req, res, next) => {
+	if (!req.user) {
+		return res.redirect('/login')
+	}
+
+	const hasRole = roles.find((role) => req.user.role === role)
+	if (!hasRole) {
+		return res.redirect('login')
+	}
+
+	return next()
+}
+
+const getRedirectUrl = (role) => {
+	switch (role) {
+		case ROLES.Admin:
+			return '/admin-dashboard'
+		case ROLES.Customer:
+			return '/customer-dashboard'
+		default:
+			return '/'
+	}
+}
+
+export { setup, signToken, hashPassword, verifyPassword, checkIsInRole, getRedirectUrl }
