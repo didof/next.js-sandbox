@@ -1,14 +1,16 @@
+import fetch from 'isomorphic-unfetch'
+
 function getServerApiUrl() {
-  return process.env.BASE_API_URL
+  return process.env.SERVER_API_URL
 }
 
 const callFetchAsync = async (url, method, body, headers = {}) => {
   try {
     const options = {
-      headers: new Headers({
-        'Content-Type': 'application/json',
-        ...headers
-      }),
+      // headers: new Headers({
+      //   'Content-Type': 'application/json',
+      //   ...headers
+      // }),
       body
     }
 
@@ -21,6 +23,7 @@ const callFetchAsync = async (url, method, body, headers = {}) => {
       credentials: 'same-origin',
       ...options
     })
+
 
     return await response.json()
   } catch (err) {
@@ -35,4 +38,8 @@ const postAsync = (url, body) => {
   return callFetchAsync(url, 'POST', body)
 }
 
-export { postAsync }
+const getAsync = (url) => {
+  return callFetchAsync(url, 'GET')
+}
+
+export { getAsync, postAsync }

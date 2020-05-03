@@ -20,7 +20,7 @@ const dev = process.env.NODE_ENV !== 'production'
 const nextApp = next({ dev })
 const handle = nextApp.getRequestHandler()
 
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 3000
 
 nextApp.prepare().then(async () => {
 	const app = express()
@@ -69,7 +69,7 @@ nextApp.prepare().then(async () => {
 
 	app.listen(port, (err) => {
 		if (err) throw err
-		console.log(`> Ready on http://localhost:${process.env.SERVER_URL}`)
+		console.log(`> Ready on http://localhost:${port}`)
 		console.log(`> Modality: ${process.env.NODE_ENV}`)
 	})
 })

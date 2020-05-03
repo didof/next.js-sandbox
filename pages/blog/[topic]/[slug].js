@@ -5,7 +5,7 @@ import { Typography } from '@material-ui/core'
 
 import { Layout } from '../../../components/notAuthenticated'
 
-export default function Post() {
+const Post = ({content}) => {
 	const router = useRouter()
 
 	const title = 'post'
@@ -15,7 +15,7 @@ export default function Post() {
 	return (
 		<>
 			<Head>
-				<title>{title}</title>
+				<title>{topic} - {slug}</title>
 			</Head>
 			<Layout>
 				<main>
@@ -25,8 +25,24 @@ export default function Post() {
 					<Typography component='h2' variant='h5'>
 						{slug}
 					</Typography>
+					<Typography component='p' variant='body1'>
+						{content}
+					</Typography>
 				</main>
 			</Layout>
 		</>
 	)
 }
+
+Post.getInitialProps = async (ctx) => {
+	console.log(ctx)
+
+
+	const content = 'content'
+
+	return {
+		content
+	}
+}
+
+export default Post

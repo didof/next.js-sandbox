@@ -3,6 +3,8 @@ import Router from 'next/router'
 
 import { Layout } from '../../components/notAuthenticated'
 
+import { server } from '../../utils'
+
 import {
 	Grid,
 	Paper,
@@ -28,9 +30,14 @@ const useStyles = makeStyles((theme) => ({
 	title: {
 		padding: theme.spacing(3),
 	},
+	heading: {
+		fontSize: theme.typography.pxToRem(15),
+		fontWeight: theme.typography.fontWeightRegular,
+	},
 }))
 
-const blogList = ({ pages }) => {
+const blogList = ({ data }) => {
+
 	const classes = useStyles()
 
 	const title = 'Blog list'
@@ -39,16 +46,15 @@ const blogList = ({ pages }) => {
 		let separated = []
 		pages.map(({ topic, slug }) => {
 			if (!separated[topic]) {
-				separated[topic] = [slug]
+				separated[topic] = [...slug]
 			} else {
-				separated[topic].push(slug)
+				separated[topic].push(...slug)
 			}
 		})
 
 		return separated
 	}
-
-	const separated = separatedPages(pages)
+	const separated = separatedPages(data.data)
 
 	// Calculate how to build the grid
 	const calculateBreakpoints = (numberOfTopics) => {
@@ -84,8 +90,16 @@ const blogList = ({ pages }) => {
 					{values.map((page) => {
 						return (
 							<ExpansionPanel key={page}>
-								<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-									<Typography component='h4' variant='subtitle1'>
+								<ExpansionPanelSummary
+									expandIcon={<ExpandMoreIcon />}
+									aria-controls={`content-${page}`}
+									id={page}
+								>
+									<Typography
+										component='h4'
+										variant='subtitle1'
+										className={classes.heading}
+									>
 										{page}
 									</Typography>
 								</ExpansionPanelSummary>
@@ -124,15 +138,10 @@ const blogList = ({ pages }) => {
 }
 
 blogList.getInitialProps = async () => {
-	const pages = [
-		{ topic: 'nextjs', slug: 'first-post' },
-		{ topic: 'nextjs', slug: 'second-post' },
-		{ topic: 'babel', slug: 'first-post' },
-		{ topic: 'webpack', slug: 'first-post' },
-		// { topic: 'react', slug: 'first-post' },
-	]
 
-	return { pages }
+	const data = await server.getAsync('/posts')
+
+	return { data }
 }
 
 export default blogList
