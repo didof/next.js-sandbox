@@ -85,6 +85,7 @@ export default function SearchAppBar() {
 					<Typography className={classes.title} variant='h6' noWrap>
 						{brand}
 					</Typography>
+					<CustomButton href='/author'>Author</CustomButton>
 					<div className={classes.search}>
 						<div className={classes.searchIcon}>
 							<SearchIcon />

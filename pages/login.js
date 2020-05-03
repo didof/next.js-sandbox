@@ -6,6 +6,9 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
+import Container from '@material-ui/core/Container'
+import Divider from '@material-ui/core/Divider'
 
 import { CustomButton, GoogleLoginButton } from '../components/UI'
 
@@ -60,80 +63,109 @@ const LoginForm = () => {
 		}
 	}
 
-	return (
-		<main className={classes.layout}>
-			<Paper className={classes.paper} elevation={2}>
-				<Box
-					display='flex'
-					alignItems='center'
-					justifyContent='center'
-					flexDirection='column'
-				>
-					<Typography component='h1' variant='h4' gutterBottom>
-						Login
-					</Typography>
-					<Typography component='p' gutterBottom>
-						Log in to your account dashboard
-					</Typography>
-				</Box>
-				<form
-					method='post'
-					className={classes.form}
-					noValidate
-					onSubmit={handleSubmit}
-				>
-					<TextField
-						margin='normal'
-						required
-						fullWidth
-						id='email'
-						label='Email Address'
-						name='email'
-						autoComplete='email'
-						autoFocus
-						defaultValue={formData.email}
-						onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-					/>
-					<TextField
-						margin='normal'
-						required
-						fullWidth
-						name='password'
-						label='Password'
-						type='password'
-						id='password'
-						autoComplete='current-password'
-						defaultValue={formData.password}
-						onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-					/>
-					<Box mb={6}>
-						<Button
-							disabled={submitting}
-							type='submit'
-							fullWidth
-							variant='contained'
-							color='primary'
-							className={classes.submit}
-						>
-							{submitting && (
-								<CircularProgress size={24} className={classes.buttonProgress} />
-							)}
-							{submitting ? 'Signing in...' : 'Sign In'}
-						</Button>
-						<Typography variant='overline' display='block' gutterBottom>
-							Social Login Providers
-						</Typography>
-						<GoogleLoginButton />
-					</Box>
-				</form>
-				<Typography component='p' variant='h6'>
-					Don't have an account yet?
-					<CustomButton variant='text' href='/register' prefetch={false}>
-						Register
-					</CustomButton>
+	const local = (
+		<Paper className={classes.paper} elevation={2}>
+			<Box
+				display='flex'
+				alignItems='center'
+				justifyContent='center'
+				flexDirection='column'
+			>
+				<Typography component='h1' variant='h4' gutterBottom>
+					Login
 				</Typography>
-			</Paper>
-		</main>
+				<Typography component='p' gutterBottom>
+					Log in to your account dashboard
+				</Typography>
+				<Divider />
+			</Box>
+			<form
+				method='post'
+				className={classes.form}
+				noValidate
+				onSubmit={handleSubmit}
+			>
+				<TextField
+					margin='normal'
+					required
+					fullWidth
+					id='email'
+					label='Email Address'
+					name='email'
+					autoComplete='email'
+					autoFocus
+					defaultValue={formData.email}
+					onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+				/>
+				<TextField
+					margin='normal'
+					required
+					fullWidth
+					name='password'
+					label='Password'
+					type='password'
+					id='password'
+					autoComplete='current-password'
+					defaultValue={formData.password}
+					onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+				/>
+				<Box mb={6}>
+					<Button
+						disabled={submitting}
+						type='submit'
+						fullWidth
+						variant='contained'
+						color='primary'
+						className={classes.submit}
+					>
+						{submitting && (
+							<CircularProgress size={24} className={classes.buttonProgress} />
+						)}
+						{submitting ? 'Signing in...' : 'Sign In'}
+					</Button>
+				</Box>
+			</form>
+			<Typography component='p' variant='h6'>
+				Don't have an account yet?
+				<CustomButton variant='text' href='/register' prefetch={false}>
+					Register
+				</CustomButton>
+			</Typography>
+		</Paper>
+	)
+
+	const social = (
+		<Paper className={classes.paper} elevation={2}>
+			<Box
+				display='flex'
+				alignItems='center'
+				justifyContent='center'
+				flexDirection='column'
+			>
+				<Typography component='h1' variant='h4' gutterBottom>
+					Social Login Providers
+				</Typography>
+				<Divider />
+				<div style={{ width: '100%' }}>
+					<GoogleLoginButton />
+				</div>
+			</Box>
+		</Paper>
+	)
+
+	return (
+		<Container>
+			<main className={classes.layout}>
+				<Grid container spacing={5}>
+					<Grid item xs={6}>
+						{local}
+					</Grid>
+					<Grid item xs={6}>
+						{social}
+					</Grid>
+				</Grid>
+			</main>
+		</Container>
 	)
 }
 
