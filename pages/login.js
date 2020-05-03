@@ -7,10 +7,9 @@ import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
 
+import { CustomButton, GoogleLoginButton } from '../components/UI'
+
 import { server } from '../utils'
-
-import { GoogleLoginButton } from '../components/GoogleLoginButton'
-
 
 const useStyles = makeStyles((theme) => ({
 	layout: {
@@ -47,7 +46,7 @@ const LoginForm = () => {
 	const [submitting, setSubmitting] = React.useState(false)
 
 	const handleSubmit = async (e) => {
-    console.log('handle')
+		console.log('handle')
 		e.preventDefault()
 		const { email, password } = formData
 		const { success, data } = await server.postAsync('/auth/login', {
@@ -77,7 +76,12 @@ const LoginForm = () => {
 						Log in to your account dashboard
 					</Typography>
 				</Box>
-				<form method='post' className={classes.form} noValidate onSubmit={handleSubmit}>
+				<form
+					method='post'
+					className={classes.form}
+					noValidate
+					onSubmit={handleSubmit}
+				>
 					<TextField
 						margin='normal'
 						required
@@ -116,12 +120,18 @@ const LoginForm = () => {
 							)}
 							{submitting ? 'Signing in...' : 'Sign In'}
 						</Button>
-						<Typography variant="overline" display="block" gutterBottom>
+						<Typography variant='overline' display='block' gutterBottom>
 							Social Login Providers
 						</Typography>
 						<GoogleLoginButton />
 					</Box>
 				</form>
+				<Typography component='p' variant='h6'>
+					Don't have an account yet?
+					<CustomButton variant='text' href='/register' prefetch={false}>
+						Register
+					</CustomButton>
+				</Typography>
 			</Paper>
 		</main>
 	)

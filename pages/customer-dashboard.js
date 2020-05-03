@@ -4,6 +4,8 @@ import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 
+import { Layout } from '../components/customer'
+
 const useStyles = makeStyles((theme) => ({
 	layout: {
 		display: 'flex',
@@ -22,23 +24,25 @@ const useStyles = makeStyles((theme) => ({
 const CustomerDashboard = () => {
 	const classes = useStyles({})
 	return (
-		<main className={classes.layout}>
-			<Paper className={classes.paper} elevation={2}>
-				<Box
-					display='flex'
-					alignItems='center'
-					justifyContent='center'
-					flexDirection='column'
-				>
-					<Typography component='h1' variant='h4' gutterBottom>
-						Customer Dashboard
-					</Typography>
-					<Typography component='p' gutterBottom>
-						Welcome, you are logged in as a customer!
-					</Typography>
-				</Box>
-			</Paper>
-		</main>
+		<Layout>
+			<main className={classes.layout}>
+				<Paper className={classes.paper} elevation={2}>
+					<Box
+						display='flex'
+						alignItems='center'
+						justifyContent='center'
+						flexDirection='column'
+					>
+						<Typography component='h1' variant='h4' gutterBottom>
+							Customer Dashboard
+						</Typography>
+						<Typography component='p' gutterBottom>
+							Welcome, you are logged in as a customer!
+						</Typography>
+					</Box>
+				</Paper>
+			</main>
+		</Layout>
 	)
 }
 

@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme =>
   })
 )
 
-const GoogleLoginButton = () => {
+export default () => {
   const classes = useStyles({})
 
   return (
@@ -80,5 +80,3 @@ const GoogleLoginButton = () => {
     </a>
   )
 }
-
-export { GoogleLoginButton }

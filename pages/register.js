@@ -6,6 +6,8 @@ import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
+import { CustomButton } from '../components/UI'
+
 import { server } from '../utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -145,6 +147,12 @@ const Register = () => {
 						</Button>
 					</Box>
 				</form>
+				<Typography component='p' variant='h6'>
+					Already have an account?
+					<CustomButton variant='text' href='/login' prefetch={false}>
+						Login
+					</CustomButton>
+				</Typography>
 			</Paper>
 		</main>
 	)
