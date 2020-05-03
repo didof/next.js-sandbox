@@ -23,10 +23,20 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/:topic/:slug', async (req, res) => {
-	console.log('[router] eccomi')
-	return res
-		.status(200)
-		.json({ message: `Hai richiesto ${req.params.topic} e ${req.params.slug}` })
+	const { topic, slug } = req.params
+
+	const dir = `topic_${topic}`
+	const filename = `${slug}.md`
+
+	//TODO: pick and read the file requested
+	const pathToDoc = await path.join(process.cwd(), 'posts', dir, filename)
+	const contents = fs.readFileSync(pathToDoc).toString()
+
+	//TODO: trasfromalo e formattalo
+
+	//TODO: restituiscilo
+
+	return res.status(200).json(contents)
 })
 
 export default router

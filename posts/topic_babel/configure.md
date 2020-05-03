@@ -1,8 +1,8 @@
 ---
-title: Babel post
-description: eoo
+title: Simple Babel configuration
+description: In this post I try to explain how to configure babel
 ---
 
 # Babel
 
-eoooooooooo
+TODO

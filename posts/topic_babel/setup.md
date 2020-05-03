@@ -1,8 +1,10 @@
 ---
-title: Babel post
-description: eoo
+title: Simple Babel setup
+description: Briefly explained what is Babel and how to set it
 ---
 
-# Babel
+# Simple Babel Setup
 
-eoooooooooo
+## A bit of history
+
+TODO

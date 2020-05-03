@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import Router from 'next/router'
 
+import { Button } from '@material-ui/core'
+
 import { Layout } from '../../components/notAuthenticated'
 
 import { server } from '../../utils'
@@ -62,8 +64,11 @@ const blogList = ({ data }) => {
 			case 1:
 				return 12
 			case 2:
-			case 4:
 				return 6
+			case 3:
+				return 4
+			case 4:
+				return 3
 			default:
 				return 4
 		}
@@ -107,7 +112,7 @@ const blogList = ({ data }) => {
 								</ExpansionPanelSummary>
 								<ExpansionPanelDetails>
 									<Typography>
-										Description <span onClick={handle_route(key, page)}>Read</span>
+										Description <Button onClick={handle_route(key, page)}>Read</Button>
 									</Typography>
 								</ExpansionPanelDetails>
 							</ExpansionPanel>

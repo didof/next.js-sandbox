@@ -1,34 +1,50 @@
 import fetch from 'isomorphic-unfetch'
+import matter from 'gray-matter'
+import marked from 'marked'
 
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 
-import { Typography } from '@material-ui/core'
-
 import { Layout } from '../../../components/notAuthenticated'
+import { Typography, Paper, Grid } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 
-const Post = ({ post }) => {
+const useStyles = makeStyles((theme) => ({
+	paper: {
+		padding: theme.spacing(3),
+	},
+}))
+
+const Post = ({ content, data }) => {
+	const classes = useStyles()
+
 	const router = useRouter()
 
 	const title = 'post'
-
-	console.log(post)
 
 	return (
 		<>
 			<Head>
 				<title>
-					test
+					{data.title}
+					<meta name='description' content={data.description} />
 				</title>
 			</Head>
 			<Layout>
 				<main>
-					<Typography component='h1' variant='h4'>
-						topic
-					</Typography>
-					<Typography component='h2' variant='h5'>
-						slug
-					</Typography>
+					<Grid container spacing={3}>
+						<Grid item lg={4}>
+							<Typography>Correlated posts</Typography>
+						</Grid>
+						<Grid item lg={4}>
+							<Paper className={classes.paper}>
+								<div dangerouslySetInnerHTML={{ __html: content }} />
+							</Paper>
+						</Grid>
+						<Grid item lg={4}>
+							<Typography>Other content</Typography>
+						</Grid>
+					</Grid>
 				</main>
 			</Layout>
 		</>
@@ -38,8 +54,6 @@ const Post = ({ post }) => {
 export const getStaticPaths = async () => {
 	const response = await fetch(`${process.env.SERVER_API_URL}/posts`)
 	const posts = await response.json()
-
-	console.log('posts:', posts)
 
 	const spreadedPosts = []
 
@@ -60,8 +74,6 @@ export const getStaticPaths = async () => {
 		},
 	}))
 
-	console.log(paths)
-
 	return {
 		paths,
 		fallback: false,
@@ -74,11 +86,17 @@ export const getStaticProps = async ({ params: { topic, slug } }) => {
 	const response = await fetch(
 		`${process.env.SERVER_API_URL}/posts/${topic}/${formattedSlug}`
 	)
-	const post = await response.json()
+
+	const markdown = await response.json()
+
+	const parsedMarkdown = matter(markdown)
+
+	const htmlString = marked(parsedMarkdown.content)
 
 	return {
 		props: {
-			post
+			content: htmlString,
+			data: parsedMarkdown.data,
 		},
 	}
 }
