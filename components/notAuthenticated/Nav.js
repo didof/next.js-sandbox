@@ -86,6 +86,7 @@ export default function SearchAppBar() {
 						{brand}
 					</Typography>
 					<CustomButton href='/author'>Author</CustomButton>
+					<CustomButton href='/blog'>Blog</CustomButton>
 					<div className={classes.search}>
 						<div className={classes.searchIcon}>
 							<SearchIcon />

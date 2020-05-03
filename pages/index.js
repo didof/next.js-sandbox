@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { Layout } from '../components/notAuthenticated'
 
-export default function Home() {
+const guestDashboard = () => {
 	const title = 'Temporary tab title'
 
 	return (
@@ -9,7 +9,9 @@ export default function Home() {
 			<Head>
 				<title>{title}</title>
 			</Head>
-			<Layout><main>index</main></Layout>
+			<Layout><main><h1>Index</h1></main></Layout>
 		</>
 	)
 }
+
+export default guestDashboard

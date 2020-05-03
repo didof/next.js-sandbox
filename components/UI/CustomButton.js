@@ -29,7 +29,6 @@ export default ({
 
 	useEffect(() => {
 		if (prefetch) {
-			console.log(`> prefetching ${href}`)
 			router.prefetch(href)
 		} else {
 			btnRef.current.addEventListener('mouseenter', handle_mouseEnter)
@@ -37,7 +36,6 @@ export default ({
 	}, [])
 
 	const handle_mouseEnter = (e) => {
-		console.log(`> prefetching ${href}`)
 		e.preventDefault()
 		router.prefetch(href)
 	}
