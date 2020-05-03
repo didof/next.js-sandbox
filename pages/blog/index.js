@@ -39,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const blogList = ({ data }) => {
-
 	const classes = useStyles()
 
 	const title = 'Blog list'
@@ -131,7 +130,7 @@ const blogList = ({ data }) => {
 			<Layout>
 				<main>
 					<Typography component='h1' variant='h4' className={classes.title}>
-						List of all topics ({Object.keys(separated).length} arguments){' '}
+						There are {Object.keys(separated).length} topics:
 					</Typography>
 					<div className={classes.root}>
 						<Grid container spacing={3}>
@@ -144,11 +143,14 @@ const blogList = ({ data }) => {
 	)
 }
 
-blogList.getInitialProps = async () => {
-
+export const getStaticProps = async () => {
 	const data = await server.getAsync('/posts')
 
-	return { data }
+	return {
+		props: {
+			data,
+		},
+	}
 }
 
 export default blogList

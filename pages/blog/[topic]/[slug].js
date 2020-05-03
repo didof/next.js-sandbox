@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Post = ({ content, data }) => {
+	console.log(data)
 	const classes = useStyles()
 
 	const router = useRouter()
@@ -25,27 +26,23 @@ const Post = ({ content, data }) => {
 	return (
 		<>
 			<Head>
-				<title>
-					{data.title}
-					<meta name='description' content={data.description} />
-				</title>
+				<title>{data.title}</title>
+				<meta name='description' content={data.description} />
 			</Head>
 			<Layout>
-				<main>
 					<Grid container spacing={3}>
-						<Grid item lg={4}>
+						<Grid item lg={3}>
 							<Typography>Correlated posts</Typography>
 						</Grid>
-						<Grid item lg={4}>
-							<Paper className={classes.paper}>
+						<Grid item lg={7}>
+							<Paper className={classes.paper} component="main">
 								<div dangerouslySetInnerHTML={{ __html: content }} />
 							</Paper>
 						</Grid>
-						<Grid item lg={4}>
+						<Grid item lg={2}>
 							<Typography>Other content</Typography>
 						</Grid>
 					</Grid>
-				</main>
 			</Layout>
 		</>
 	)
