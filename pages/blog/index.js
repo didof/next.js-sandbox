@@ -1,4 +1,6 @@
 import Head from 'next/head'
+import Router from 'next/router'
+
 import { Layout } from '../../components/notAuthenticated'
 
 import {
@@ -63,21 +65,34 @@ const blogList = ({ pages }) => {
 
 	const breakpoints = calculateBreakpoints(Object.keys(separated))
 
+	const handle_route = (topic, slug) => {
+		return () => {
+			const href = '/blog/[topic]/[slug]'
+			const as = `/blog/${topic}/${slug}`
+
+			return Router.push(href, as)
+		}
+	}
+
 	const list_pages = Object.entries(separated).map(([key, values]) => {
 		return (
 			<Grid item xs={breakpoints} key={key}>
 				<Paper className={classes.paper}>
-					<Typography component='h2' variant='title'>
+					<Typography component='h2' variant='h6'>
 						{key}
 					</Typography>
 					{values.map((page) => {
 						return (
 							<ExpansionPanel key={page}>
 								<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-									<Typography component='h4' variant='subtitle'>{page}</Typography>
+									<Typography component='h4' variant='subtitle1'>
+										{page}
+									</Typography>
 								</ExpansionPanelSummary>
 								<ExpansionPanelDetails>
-									<Typography>Description</Typography>
+									<Typography>
+										Description <span onClick={handle_route(key, page)}>Read</span>
+									</Typography>
 								</ExpansionPanelDetails>
 							</ExpansionPanel>
 						)
