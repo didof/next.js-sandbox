@@ -72,9 +72,11 @@ const blogList = ({ data }) => {
 	const breakpoints = calculateBreakpoints(Object.keys(separated))
 
 	const handle_route = (topic, slug) => {
+		const formattedSlug = slug.replace('.md', '')
+
 		return () => {
 			const href = '/blog/[topic]/[slug]'
-			const as = `/blog/${topic}/${slug}`
+			const as = `/blog/${topic}/${formattedSlug}`
 
 			return Router.push(href, as)
 		}

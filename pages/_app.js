@@ -1,4 +1,4 @@
-// import '../styles/global.css'
+import '../styles/global.css'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Head from 'next/head'
 import { ThemeProvider } from '@material-ui/core/styles'

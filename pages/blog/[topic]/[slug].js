@@ -1,3 +1,5 @@
+import fetch from 'isomorphic-unfetch'
+
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 
@@ -5,28 +7,27 @@ import { Typography } from '@material-ui/core'
 
 import { Layout } from '../../../components/notAuthenticated'
 
-const Post = ({content}) => {
+const Post = ({ post }) => {
 	const router = useRouter()
 
 	const title = 'post'
 
-	const { topic, slug } = router.query
+	console.log(post)
 
 	return (
 		<>
 			<Head>
-				<title>{topic} - {slug}</title>
+				<title>
+					test
+				</title>
 			</Head>
 			<Layout>
 				<main>
 					<Typography component='h1' variant='h4'>
-						{topic}
+						topic
 					</Typography>
 					<Typography component='h2' variant='h5'>
-						{slug}
-					</Typography>
-					<Typography component='p' variant='body1'>
-						{content}
+						slug
 					</Typography>
 				</main>
 			</Layout>
@@ -34,14 +35,51 @@ const Post = ({content}) => {
 	)
 }
 
-Post.getInitialProps = async (ctx) => {
-	console.log(ctx)
+export const getStaticPaths = async () => {
+	const response = await fetch(`${process.env.SERVER_API_URL}/posts`)
+	const posts = await response.json()
 
+	console.log('posts:', posts)
 
-	const content = 'content'
+	const spreadedPosts = []
+
+	posts.data.forEach(({ topic, slug }) => {
+		slug.forEach((title) => {
+			const post = {
+				topic,
+				slug: title.replace('.md', ''),
+			}
+			spreadedPosts.push(post)
+		})
+	})
+
+	const paths = spreadedPosts.map(({ topic, slug }) => ({
+		params: {
+			topic,
+			slug,
+		},
+	}))
+
+	console.log(paths)
 
 	return {
-		content
+		paths,
+		fallback: false,
+	}
+}
+
+export const getStaticProps = async ({ params: { topic, slug } }) => {
+	const formattedSlug = slug.replace('.md', '')
+
+	const response = await fetch(
+		`${process.env.SERVER_API_URL}/posts/${topic}/${formattedSlug}`
+	)
+	const post = await response.json()
+
+	return {
+		props: {
+			post
+		},
 	}
 }
 
